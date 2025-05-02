@@ -1,0 +1,51 @@
+import random
+
+class Environment:
+    def __init__(self):
+        # Randomly initialize rooms as Clean or Dirty
+        self.state = {
+            'A': random.choice(['Clean', 'Dirty']),
+            'B': random.choice(['Clean', 'Dirty'])
+        }
+        self.vacuum_location = random.choice(['A', 'B'])
+
+    def display(self):
+        print(f"Location A: {self.state['A']}")
+        print(f"Location B: {self.state['B']}")
+        print(f"Vacuum is at: {self.vacuum_location}\n")
+
+class VacuumAgent:
+    def __init__(self, environment):
+        self.environment = environment
+        self.actions = []
+
+    def run(self):
+        for _ in range(10):  # Limit steps to avoid infinite loop
+            loc = self.environment.vacuum_location
+            status = self.environment.state[loc]
+            self.environment.display()
+
+            if status == 'Dirty':
+                print(f"Action: CLEAN at {loc}")
+                self.environment.state[loc] = 'Clean'
+                self.actions.append(f"Clean {loc}")
+            else:
+                # Move to the other room
+                new_loc = 'B' if loc == 'A' else 'A'
+                print(f"Action: MOVE to {new_loc}")
+                self.environment.vacuum_location = new_loc
+                self.actions.append(f"Move to {new_loc}")
+
+            print("-" * 30)
+
+if __name__ == "__main__":
+    env = Environment()
+    agent = VacuumAgent(env)
+    agent.run()
+Sample Output:
+
+Initial State: 
+State: (Dirty Left, Clean Right)
+Step 1: Move to Left and clean
+Step 2: Move to Right
+Final State: (Clean Left, Clean Right)
