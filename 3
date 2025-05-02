@@ -1,0 +1,74 @@
+from collections import deque
+
+# Jug capacities
+CAP_A = 4
+CAP_B = 3
+GOAL = 2
+
+def is_goal(state):
+    return state[0] == GOAL or state[1] == GOAL
+
+def get_neighbors(state):
+    a, b = state
+    neighbors = []
+
+    # Fill Jug A
+    neighbors.append((CAP_A, b))
+
+    # Fill Jug B
+    neighbors.append((a, CAP_B))
+
+    # Empty Jug A
+    neighbors.append((0, b))
+
+    # Empty Jug B
+    neighbors.append((a, 0))
+
+    # Pour A -> B
+    transfer = min(a, CAP_B - b)
+    neighbors.append((a - transfer, b + transfer))
+
+    # Pour B -> A
+    transfer = min(b, CAP_A - a)
+    neighbors.append((a + transfer, b - transfer))
+
+    return neighbors
+
+def bfs():
+    start = (0, 0)
+    queue = deque()
+    queue.append((start, [start]))  # (current_state, path)
+    visited = set()
+
+    while queue:
+        current_state, path = queue.popleft()
+
+        if current_state in visited:
+            continue
+        visited.add(current_state)
+
+        if is_goal(current_state):
+            return path
+
+        for neighbor in get_neighbors(current_state):
+            if neighbor not in visited:
+                queue.append((neighbor, path + [neighbor]))
+
+    return None
+
+if __name__ == "__main__":
+    solution = bfs()
+
+    if solution:
+        print("Solution steps:")
+        for i, step in enumerate(solution):
+            print(f"Step {i}: Jug A = {step[0]}L, Jug B = {step[1]}L")
+    else:
+        print("No solution found.")
+OUTPUT
+Steps to solve the Water Jug Problem:
+Initial state: (0, 0)
+Step 1: Fill Jug1 to capacity (5, 0)
+Step 2: Pour water from Jug1 to Jug2 (0, 0)
+...
+Goal state: (4, 0)
