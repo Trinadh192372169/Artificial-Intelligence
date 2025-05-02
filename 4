@@ -1,0 +1,43 @@
+import itertools
+
+def solve_cryptarithmetic():
+    # Unique letters in the puzzle
+    letters = 'SENDMORY'
+
+    # Ensure all letters are unique
+    assert len(set(letters)) == len(letters)
+
+    # Try all permutations of digits 0-9 for the letters
+    for perm in itertools.permutations(range(10), len(letters)):
+        letter_to_digit = dict(zip(letters, perm))
+
+        # No leading zero for SEND, MORE, or MONEY
+        if letter_to_digit['S'] == 0 or letter_to_digit['M'] == 0:
+            continue
+
+        send = 1000 * letter_to_digit['S'] + 100 * letter_to_digit['E'] + 10 * letter_to_digit['N'] + letter_to_digit['D']
+        more = 1000 * letter_to_digit['M'] + 100 * letter_to_digit['O'] + 10 * letter_to_digit['R'] + letter_to_digit['E']
+        money = 10000 * letter_to_digit['M'] + 1000 * letter_to_digit['O'] + 100 * letter_to_digit['N'] + 10 * letter_to_digit['E'] + letter_to_digit['Y']
+
+        if send + more == money:
+            print("Solution found:")
+            print(f"SEND  = {send}")
+            print(f"MORE  = {more}")
+            print(f"MONEY = {money}")
+            print("Letter to Digit Mapping:", letter_to_digit)
+            return
+
+    print("No solution found.")
+
+if __name__ == "__main__":
+    solve_cryptarithmetic()
+Sample Output:
+Solution for the crypt-arithmetic problem:
+S = 9
+E = 5
+N = 6
+D = 7
+M = 1
+O = 0
+R = 8
+Y = 2
