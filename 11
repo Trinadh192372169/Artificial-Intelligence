@@ -1,0 +1,102 @@
+# Define the map of Australia
+neighbors = {
+    'WA': ['NT', 'SA'],
+    'NT': ['WA', 'SA', 'Q'],
+    'SA': ['WA', 'NT', 'Q', 'NSW', 'V'],
+    'Q': ['NT', 'SA', 'NSW'],
+    'NSW': ['Q', 'SA', 'V'],
+    'V': ['SA', 'NSW'],
+    'T': []  # Tasmania has no land borders
+}
+
+# Define available colors
+colors = ['Red', 'Green', 'Blue']
+
+# CSP Solver
+def is_consistent(state, var, value):
+    """Check if assigning 'value' to 'var' is consistent with neighbors."""
+    for neighbor in neighbors[var]:
+        if neighbor in state and state[neighbor] == value:
+            return False
+    return True
+
+def select_unassigned_variable(state):
+    """Select the next variable to assign using MRV heuristic."""
+    unassigned = [v for v in neighbors if v not in state]
+    return min(unassigned, key=lambda var: len(get_legal_values(state, var)))
+
+def get_legal_values(state, var):
+    """Return the list of legal values for a variable."""
+    return [color for color in colors if is_consistent(state, var, color)]
+
+def forward_checking(state):
+    """Check if all variables still have at least one legal value."""
+    for var in neighbors:
+        if var not in state and not get_legal_values(state, var):
+            return False
+    return True
+
+def backtrack(state):
+    """Backtracking CSP solver."""
+    if len(state) == len(neighbors):
+        return state
+
+    var = select_unassigned_variable(state)
+    for value in get_legal_values(state, var):
+        new_state = state.copy()
+        new_state[var] = value
+        if forward_checking(new_state):
+            result = backtrack(new_state)
+            if result:
+                return result
+    return None
+output
+# Solve the CSP
+solution = backtrack({})
+if solution:
+    print("Map Coloring Solution:")
+    for region in sorted(solution):
+        print(f"{region}: {solution[region]}")
+else:
+    print("No solution found.")
+  |   |  
+-----
+  |   |  
+-----
+  |   |  
+Player X, enter row (0-2): 0
+Player X, enter column (0-2): 0
+X |   |  
+-----
+  |   |  
+-----
+  |   |  
+Player O, enter row (0-2): 1
+Player O, enter column (0-2): 1
+X |   |  
+-----
+  | O |  
+-----
+  |   |  
+Player X, enter row (0-2): 0
+Player X, enter column (0-2): 1
+X | X |  
+-----
+  | O |  
+-----
+  |   |  
+Player O, enter row (0-2): 2
+Player O, enter column (0-2): 2
+X | X |  
+-----
+  | O |  
+-----
+  |   | O
+Player X, enter row (0-2): 0
+Player X, enter column (0-2): 2
+X | X | X
+-----
+  | O |  
+-----
+  |   | O
+Player X wins!
