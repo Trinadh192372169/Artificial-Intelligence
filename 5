@@ -1,0 +1,80 @@
+from collections import deque
+
+class State:
+    def __init__(self, missionaries, cannibals, boat, path=None):
+        self.m = missionaries      # missionaries on left
+        self.c = cannibals         # cannibals on left
+        self.b = boat              # 1 = boat on left, 0 = on right
+        self.path = path or []
+
+    def is_valid(self):
+        # Check bounds
+        if self.m < 0 or self.c < 0 or self.m > 3 or self.c > 3:
+            return False
+        # Left side constraint
+        if self.m > 0 and self.m < self.c:
+            return False
+        # Right side constraint
+        right_m = 3 - self.m
+        right_c = 3 - self.c
+        if right_m > 0 and right_m < right_c:
+            return False
+        return True
+
+    def is_goal(self):
+        return self.m == 0 and self.c == 0 and self.b == 0
+
+    def get_neighbors(self):
+        moves = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]
+        neighbors = []
+
+        for m, c in moves:
+            if self.b == 1:  # boat on left
+                new_state = State(self.m - m, self.c - c, 0, self.path + [self])
+            else:  # boat on right
+                new_state = State(self.m + m, self.c + c, 1, self.path + [self])
+
+            if new_state.is_valid():
+                neighbors.append(new_state)
+
+        return neighbors
+
+    def __repr__(self):
+        return f"({self.m}M, {self.c}C, {'Left' if self.b == 1 else 'Right'})"
+
+
+def solve():
+    start = State(3, 3, 1)
+    queue = deque([start])
+    visited = set()
+
+    while queue:
+        current = queue.popleft()
+        if current.is_goal():
+            return current.path + [current]
+
+        state_id = (current.m, current.c, current.b)
+        if state_id in visited:
+            continue
+        visited.add(state_id)
+
+        for neighbor in current.get_neighbors():
+            queue.append(neighbor)
+
+    return None
+
+
+if __name__ == "__main__":
+    solution = solve()
+    if solution:
+        print("Solution found:\n")
+        for i, state in enumerate(solution):
+            print(f"Step {i}: {state}")
+    else:
+        print("No solution found.")
+Sample Output:
+Steps to solve the Missionaries and Cannibals problem:
+Initial State: Missionaries = 3, Cannibals = 3, Boat = Left
+Step 1: Move 1 missionary and 1 cannibal to the right
+...
+Goal State: All missionaries and cannibals on the right bank
