@@ -1,0 +1,33 @@
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+# Step 1: Load dataset and split
+iris = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(
+    iris.data, iris.target, test_size=0.3, random_state=42
+)
+
+# Step 2: Train Decision Tree
+clf = DecisionTreeClassifier(criterion='gini', max_depth=3)
+clf.fit(X_train, y_train)
+
+# Step 3: Make predictions
+y_pred = clf.predict(X_test)
+
+# Step 4: Evaluate
+accuracy = accuracy_score(y_test, y_pred)
+print("Prediction Accuracy:", accuracy)
+
+# Optional: Plot the decision tree
+plt.figure(figsize=(10, 6))
+plot_tree(clf, filled=True, feature_names=iris.feature_names, class_names=iris.target_names)
+plt.show()
+
+Output:
+Prediction Accuracy: 1.0
+petal length (cm) <= 2.45
+|--- class: setosa
+...
