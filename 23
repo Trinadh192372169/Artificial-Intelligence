@@ -1,0 +1,39 @@
+% Facts: gender
+male(john).
+male(paul).
+male(jim).
+male(tom).
+
+female(mary).
+female(linda).
+female(susan).
+female(lisa).
+
+% Facts: parent(Parent, Child)
+parent(john, paul).
+parent(mary, paul).
+parent(john, linda).
+parent(mary, linda).
+
+parent(paul, jim).
+parent(susan, jim).
+
+parent(paul, lisa).
+parent(susan, lisa).
+
+% Rules:
+father(F, C) :- parent(F, C), male(F).
+mother(M, C) :- parent(M, C), female(M).
+
+sibling(A, B) :- parent(P, A), parent(P, B), A \= B.
+
+grandparent(GP, GC) :- parent(GP, P), parent(P, GC).
+grandfather(GF, GC) :- grandparent(GF, GC), male(GF).
+grandmother(GM, GC) :- grandparent(GM, GC), female(GM).
+
+Query 1:
+
+?- father(john, paul).
+Output:
+
+true.
