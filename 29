@@ -1,0 +1,18 @@
+% Initial facts
+fact(has_feathers).
+fact(lays_eggs).
+fact(can_fly).
+
+% Rules to derive new facts
+fact(is_bird) :-
+    fact(has_feathers),
+    fact(lays_eggs).
+
+fact(is_flying_bird) :-
+    fact(is_bird),
+    fact(can_fly).
+Query 1:
+?- fact(is_bird).
+
+Output 1:
+true.
