@@ -1,0 +1,21 @@
+% Define facts: name(Name, dob(Year, Month, Day)).
+
+person(john_doe, dob(1990, 5, 12)).
+person(jane_smith, dob(1985, 10, 23)).
+person(mary_jones, dob(2000, 1, 5)).
+person(jack_white, dob(1995, 7, 18)).
+
+% Rule to print a person's DOB
+print_dob(Name) :-
+    person(Name, dob(Y, M, D)),
+    format('~w was born on ~d-~d-~d.~n', [Name, Y, M, D]).
+
+Output:
+Name = john_doe,
+Year = 1990,
+Month = 5,
+Day = 12 ;
+Name = jane_smith,
+Year = 1985,
+Month = 10,
+Day = 23 ;
