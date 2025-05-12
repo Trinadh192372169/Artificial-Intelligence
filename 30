@@ -1,0 +1,22 @@
+% Facts: observable features
+has_milk.
+has_fur.
+lays_eggs.
+has_feathers.
+
+% Rules: inferred facts (goals Prolog can try to prove)
+is_mammal :- has_milk, has_fur.
+is_bird :- lays_eggs, has_feathers.
+is_bat :- is_mammal, can_fly.
+is_penguin :- is_bird, \+ can_fly.
+is_eagle :- is_bird, can_fly.
+
+% Fact for demonstration
+can_fly.
+
+Query 1:
+?- is_mammal.
+
+Output:
+
+true.
