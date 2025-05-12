@@ -1,0 +1,24 @@
+% Define possible moves
+move(state(middle, onbox, middle, false), grasp, state(middle, onbox, middle, true)).
+move(state(P, onfloor, P, HB), climb, state(P, onbox, P, HB)).
+move(state(P1, onfloor, P1, HB), push(P1, P2), state(P2, onfloor, P2, HB)).
+move(state(P1, onfloor, B, HB), walk(P1, P2), state(P2, onfloor, B, HB)).
+
+% Define a path to goal using the moves
+can_get_banana(State) :-
+    move(State, _, NextState),
+    can_get_banana(NextState).
+
+can_get_banana(state(_, _, _, true)).
+
+% Wrapper to find the sequence of actions
+can_get_banana_path(State, [], State) :-
+    State = state(_, _, _, true).
+
+can_get_banana_path(State1, [Action | Rest], FinalState) :-
+    move(State1, Action, State2),
+    can_get_banana_path(State2, Rest, FinalState).
+Output:
+
+Actions = [walk(door, window), push(window, middle), climb, grasp],
+FinalState = state(middle, onbox, middle, true).
