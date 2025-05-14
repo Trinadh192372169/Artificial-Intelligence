@@ -1,0 +1,32 @@
+<h1 title="Main Heading">Welcome to My HTML Tutorial Blog</h1>
+
+<p>This is a paragraph demonstrating basic HTML tags used in web development.</p>
+
+<a href="https://www.w3schools.com/tags/tag_a.asp" title="Learn about the anchor tag">Click here to learn about anchor tags</a>
+
+<br><br>
+
+<img src="https://www.example.com/image.jpg" alt="Example Image" title="Hover Title for Image" />
+
+<ul title="Unordered List">
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>JavaScript</li>
+</ul>
+
+<blockquote title="HTML Quote Example">
+  HTML stands for Hyper Text Markup Language.
+</blockquote>
+
+output
+Welcome to My HTML Tutorial Blog
+
+(When you hover over this heading, it shows: “Main Heading”)
+
+This is a paragraph demonstrating basic HTML tags used in web development.
+
+Click here to learn about anchor tags
+(When you hover over the link, it shows: “Learn about the anchor tag”)
+
+
+---
