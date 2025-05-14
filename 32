@@ -1,0 +1,15 @@
+% match(Pattern, List) succeeds if Pattern matches the beginning of List
+
+match([], _).
+match([H1|T1], [H1|T2]) :-
+    match(T1, T2).
+
+Sample Query & Output:
+
+?- match([a,b], [a,b,c,d]).
+true.
+
+?- match([a,b,c], [a,b]).
+false.
+
+
